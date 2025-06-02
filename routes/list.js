@@ -34,7 +34,22 @@ router.put("/updateTask/:id",async(req,res)=>{
         });
         }
     } catch (error) {
-        res.status(400).json({message:"User already exist"});
+        console.log(error);
+    }
+});
+
+//Delete
+router.delete("/deleteTask/:id",async(req,res)=>{
+    try {
+        const {title,body,email} = req.body;
+        const existingUser=await User.findOne({email});
+        if (existingUser){
+            await List.findByIdAndDelete(req.params.id,{title,body}).then(()=>{
+            res.status(200).json({message:"Task Deleted!"});
+        });
+        }
+    } catch (error) {
+        console.log(error);
     }
 });
 
